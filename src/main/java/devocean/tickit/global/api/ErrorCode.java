@@ -21,6 +21,9 @@ public enum ErrorCode {
     // 00
     INTERBAL_SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류"),
 
+
+    ;
+
     private final Integer code;
     private final HttpStatus httpStatus;
     private final String message;
