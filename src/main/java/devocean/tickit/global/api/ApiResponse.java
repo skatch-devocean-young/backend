@@ -19,7 +19,7 @@ public record ApiResponse<T>(
                 return new ApiResponse<>(HttpStatus.CREATED, true, data, null);
         }
 
-        public static <T> ApiResponse<T> failed(final CustomException e) {
-                return new ApiResponse<>(e.getErrorCode().getHttpStatus(), false, null, ExceptionDto.of(e.getErrorCode()));
+        public static <T> ApiResponse<T> failed(final ErrorCode errorCode) {
+                return new ApiResponse<>(errorCode.getHttpStatus(), false, null, ExceptionDto.of(errorCode));
         }
 }
