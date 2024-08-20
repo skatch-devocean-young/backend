@@ -35,14 +35,13 @@ public class JwtFilter extends OncePerRequestFilter {
         // for cicd
         String path = request.getRequestURI();
         log.info("request url : {}", path);
-
         filterChain.doFilter(request, response);
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/api/v1/test") // 일단 모든 경로에 대해 열어두었음
+        return path.startsWith("/api/v1/test") | path.startsWith("/api/v1/auth") // 일단 모든 경로에 대해 열어두었음
                 ;
     }
 }
