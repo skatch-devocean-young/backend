@@ -1,4 +1,4 @@
-package devocean.tickit.global.config.redis;
+package devocean.tickit.global.redis;
 
 import devocean.tickit.global.api.ApiResponse;
 import lombok.RequiredArgsConstructor;

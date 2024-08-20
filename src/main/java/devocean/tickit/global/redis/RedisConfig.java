@@ -1,4 +1,4 @@
-package devocean.tickit.global.config.redis;
+package devocean.tickit.global.redis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
