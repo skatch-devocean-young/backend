@@ -29,7 +29,13 @@ public enum ErrorCode {
     // 404 Not Found
     // 00
     NOT_FOUND(40400, HttpStatus.NOT_FOUND, "존재하지 않음"),
+    // 01
     NOT_FOUND_END_POINT(40401, HttpStatus.NOT_FOUND, "존재하지 않는 API"),
+
+    // 409
+    // 00
+    // 01
+    DUPLICATED_ID(40901, HttpStatus.CONFLICT, "ID 중복"),
 
     // 500 Internal Server Error
     // 00
