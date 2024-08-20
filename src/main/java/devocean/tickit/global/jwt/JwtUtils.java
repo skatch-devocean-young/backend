@@ -59,6 +59,7 @@ public class JwtUtils {
                 .compact();
 
         updateUserRefreshToken(userDto, refreshToken);
+        return refreshToken;
     }
 
     public void updateUserRefreshToken(UserDto userDto, String refreshToken) {
