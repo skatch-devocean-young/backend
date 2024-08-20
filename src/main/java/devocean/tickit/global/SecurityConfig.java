@@ -1,5 +1,7 @@
-package devocean.tickit.global.config;
+package devocean.tickit.global;
 
+import devocean.tickit.global.jwt.JwtFilter;
+import devocean.tickit.global.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 
@@ -16,8 +19,8 @@ import java.util.Arrays;
 @Configuration
 public class SecurityConfig {
 
+    private final JwtUtils jwtUtils;
     private String apiVersion = "/api/v1";
-
     private String[] attendeeList = {
             "/user", "/users/**",
             "/events", "/events/**",
@@ -52,7 +55,8 @@ public class SecurityConfig {
                             // 역할 검증이 필요한 uri 추가하기 .permit
                             .anyRequest().authenticated();
                 })
-                // jwtFilter를 UsernamePasswordAuthenticationFilter 앞에 추가할 것
+                // jwtFilter를 UsernamePasswordAuthenticationFilter 앞에 추가
+                .addFilterBefore(new JwtFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
 
         ;
         return http.build();

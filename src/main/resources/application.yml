@@ -1,32 +1,3 @@
-server:
-  port: ${SERVER_PORT}
-
 spring:
-  application:
-    name: tickit
-  datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${INITIAL_DB}?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=utf8&allowPublicKeyRetrieval=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
-
-  jpa:
-    hibernate:
-      ddl-auto: ${SPRING_DATASOURCE_DDL_AUTO}
-    properties:
-      hibernate:
-        jdbc:
-          time_zone: Asia/Seoul
-        show_sql: true
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
-    repositories:
-      enabled: true
-    defer-datasource-initialization: true
-    open-in-view: false
-    generate-ddl: true
-    show-sql: true
-
-  sql:
-    init:
-      mode: always
+  profiles:
+    active: local-gh, local-sh, api, jwt, redis, oauth
