@@ -43,4 +43,9 @@ public class UserInfo extends BaseEntity {
         this.job = job;
         this.phone = phone;
     }
+
+    public UserInfo setInitialUserInfo(User user) {
+        this.user = user;
+        return this;
+    }
 }
