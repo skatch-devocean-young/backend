@@ -1,0 +1,53 @@
+name: Tickit CI/CD with Gradle
+
+on:
+  pull_request:
+    branches: [ "main", "develop" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: ⏱️Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: ⏱️Gradle Caching - 빌드 시간 향상
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: ⏱️gradle build를 위한 권한을 부여합니다.
+        run: chmod +x gradlew
+
+      - name: ⏱️gradle build 중입니다.
+        run: ./gradlew build -x test
+
+      - name: ⏱️Docker image build 후 Docker hub에 push합니다.
+        run: |
+          docker build -f Dockerfile -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }} .
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}
+
+      - name: ⏱️Docker hub에서 pull 후 deploy합니다.
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.GCP_SERVER_HOST }}
+          username: ${{ secrets.GCP_SERVER_USERNAME }}
+          key: ${{ secrets.GCP_SSH_KEY }}
+          script: |
+            sudo chmod 777 ./deploy.sh
+            ./deploy.sh
+            sudo docker image prune -f
