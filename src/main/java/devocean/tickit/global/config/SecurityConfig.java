@@ -19,6 +19,7 @@ public class SecurityConfig {
     private String apiVersion = "/api/v1";
 
     private String[] attendeeList = {
+            "/health-check/**",
             "/user", "/users/**",
             "/events", "/events/**",
             "/wallets", "/wallets/**",
