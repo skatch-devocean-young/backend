@@ -1,3 +1,3 @@
 spring:
   profiles:
-    active: local-gh, local-sh
+    active: local-gh, api, jwt, redis, oauth
