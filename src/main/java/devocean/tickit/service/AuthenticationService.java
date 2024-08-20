@@ -51,7 +51,9 @@ public class AuthenticationService {
         String providerId = payload.getSubject(); // a key to identify a user
 
         // providerId로 user 탐색
-        Optional<User> user = userRepository.findByProviderId(providerId);
+//        Optional<User> user = userRepository.findByProviderId(providerId);
+        // providerId와 provider로 user 탐색
+        Optional<User> user = userRepository.findByProviderAndProviderId(requestDto.provider(), providerId);
 
         // 신규 user면 회원가입 (name, provider, provider_id, role, img_url)
         user.ifPresentOrElse(
