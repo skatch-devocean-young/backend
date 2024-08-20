@@ -39,50 +39,56 @@ public class AuthenticationService {
     @Transactional
     public ApiResponse<?> authenticateUsers(AuthenticationRequestDto requestDto) {
 
-        // 토큰 유효성 검사
-        GoogleIdToken tokenDto = verifyUser(requestDto.idToken());
-        if(tokenDto == null) {
-            return ApiResponse.failed(ErrorCode.INVALID_GOOGLE_TOKEN);
-        }
+        try {
+            // 토큰 유효성 검사
+            GoogleIdToken tokenDto = verifyUser(requestDto.idToken());
+            if(tokenDto == null) {
+                throw new UnauthorizedException(ErrorCode.INVALID_GOOGLE_TOKEN);
+            }
 
-        // ID 토큰으로 프로필 정보 열람
-        GoogleIdToken.Payload payload = tokenDto.getPayload();
-        String name = payload.get("given_name").toString();
-        String providerId = payload.getSubject(); // a key to identify a user
+            // ID 토큰으로 프로필 정보 열람
+            GoogleIdToken.Payload payload = tokenDto.getPayload();
+            String name = payload.get("given_name").toString();
+            String providerId = payload.getSubject(); // a key to identify a user
 
-        // providerId로 user 탐색
+            // providerId로 user 탐색
 //        Optional<User> user = userRepository.findByProviderId(providerId);
-        // providerId와 provider로 user 탐색
-        Optional<User> user = userRepository.findByProviderAndProviderId(requestDto.provider(), providerId);
+            // providerId와 provider로 user 탐색
+            Optional<User> user = userRepository.findByProviderAndProviderId(requestDto.provider(), providerId);
 
-        // 신규 user면 회원가입 (name, provider, provider_id, role, img_url)
-        user.ifPresentOrElse(
-                // Optional 객체 존재하는 경우
-                existingUser -> {
-                    log.info("기가입유저 -> {}", existingUser);
-                },
-                // Optional 객체 비어있는 경우
-                () -> {
-                    log.info("신규가입유저");
-                    signUp(name, requestDto.provider(), providerId);
-                }
-        );
+            // 신규 user면 회원가입 (name, provider, provider_id, role, img_url)
+            user.ifPresentOrElse(
+                    // Optional 객체 존재하는 경우
+                    existingUser -> {
+                        log.info("기가입유저 -> {}", existingUser);
+                    },
+                    // Optional 객체 비어있는 경우
+                    () -> {
+                        log.info("신규가입유저");
+                        signUp(name, requestDto.provider(), providerId);
+                    }
+            );
 
-        // jwt 생성을 위한 dto 생성
-        user = userRepository.findByProviderAndProviderId("google", providerId);
-        UserDto userDto = UserDto.builder()
-                .id(user.get().getId())
-                .role(Role.ATTENDEE)
-                .build();
+            // jwt 생성을 위한 dto 생성
+            user = userRepository.findByProviderAndProviderId("google", providerId);
+            UserDto userDto = UserDto.builder()
+                    .id(user.get().getId())
+                    .role(Role.ATTENDEE)
+                    .build();
 
-        // user uuid & role로 jwt 생성
-        AuthenticationResponseDto responseDto = AuthenticationResponseDto.builder()
-                .accessToken(jwtUtils.createAccessToken(userDto))
-                .refreshToken(jwtUtils.createRefreshToken(userDto))
-                .name(user.get().getName())
-                .build();
+            // user uuid & role로 jwt 생성
+            AuthenticationResponseDto responseDto = AuthenticationResponseDto.builder()
+                    .accessToken(jwtUtils.createAccessToken(userDto))
+                    .refreshToken(jwtUtils.createRefreshToken(userDto))
+                    .name(user.get().getName())
+                    .build();
 
-        return ApiResponse.created(responseDto);
+            return ApiResponse.created(responseDto);
+        } catch (UnauthorizedException e) {
+            return ApiResponse.failed(e.getErrorCode());
+        } catch (Exception e) {
+            return ApiResponse.failed(ErrorCode.INTERNAL_SERVER_ERROR);
+        }
     }
 
     private void signUp(String name, String provider, String providerId) {
