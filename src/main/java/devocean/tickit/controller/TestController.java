@@ -28,4 +28,9 @@ public class TestController {
     public ApiResponse<?> logIn(@RequestBody TestLogInRequestDto requestDto) {
         return testService.logInfotDev(requestDto);
     }
+
+    @PostMapping("/health")
+    public String healthCheck() {
+        return "Hello World!";
+    }
 }
