@@ -70,7 +70,7 @@ public class JwtUtils {
         return stringRedisTemplate.opsForValue().get(id);
     }
 
-    public void deleteRefreshTokenByName(String id) {
+    public void deleteRefreshTokenById(String id) {
         if (getUserRefreshToken(id) != null) {
             stringRedisTemplate.delete(id);
         }

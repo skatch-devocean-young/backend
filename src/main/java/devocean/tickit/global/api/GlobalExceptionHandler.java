@@ -29,6 +29,6 @@ public class GlobalExceptionHandler {
     public ApiResponse<?> handleException(Exception e) {
         log.error("handleException() in GlobalExceptionHandler threw Exception : {}", e.getMessage());
         e.printStackTrace();
-        return ApiResponse.failed(ErrorCode.INTERBAL_SERVER_ERROR);
+        return ApiResponse.failed(ErrorCode.INTERNAL_SERVER_ERROR);
     }
 }
