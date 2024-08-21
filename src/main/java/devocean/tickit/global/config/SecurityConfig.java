@@ -1,4 +1,4 @@
-package devocean.tickit.global;
+package devocean.tickit.global.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
