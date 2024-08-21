@@ -5,10 +5,7 @@ import devocean.tickit.dto.TestSignInRequestDto;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.service.TestService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/v1/test")
 @RequiredArgsConstructor
@@ -29,7 +26,8 @@ public class TestController {
         return testService.logInfotDev(requestDto);
     }
 
-    @PostMapping("/health")
+    // 헬스 체크용
+    @GetMapping("/health")
     public String healthCheck() {
         return "Hello World!";
     }
