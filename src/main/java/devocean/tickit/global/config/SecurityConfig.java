@@ -70,7 +70,7 @@ public class SecurityConfig {
 //                .sessionManagement(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> {
                     auth
-//                            .requestMatchers("/**").permitAll()
+                            .requestMatchers("/**").permitAll()
                             .requestMatchers(getVersionedList(attendeeList)).permitAll()
                             .requestMatchers(getVersionedList(hostList)).permitAll()
                             .anyRequest().authenticated()
