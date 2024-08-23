@@ -22,30 +22,30 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig {
 
-//    private final JwtUtils jwtUtils;
-//    private String apiVersion = "/api/v1";
-//    private String[] attendeeList = {
-//            "/", "/**",
-//            "/health",
-//            "/test", "/test/**",
-//            "/user", "/users/**",
-//            "/events", "/events/**",
-//            "/wallets", "/wallets/**",
-//            "/albums", "/albums/**",
-//            "/tickets", "/tickets/**",
-//            "/mypage", "/mypage/**",
-//
-//    };
-//
-//    private String[] hostList = {
-//            "/participants", "/participants/**",
-//    };
-//
-//    public String[] getVersionedList(String[] apiList) {
-//        return Arrays.stream(apiList)
-//                .map(path -> apiVersion + path)
-//                .toArray(String[]::new);
-//    }
+    private final JwtUtils jwtUtils;
+    private String apiVersion = "/api/v1";
+    private String[] attendeeList = {
+            "/", "/**",
+            "/health",
+            "/test", "/test/**",
+            "/user", "/users/**",
+            "/events", "/events/**",
+            "/wallets", "/wallets/**",
+            "/albums", "/albums/**",
+            "/tickets", "/tickets/**",
+            "/mypage", "/mypage/**",
+
+    };
+
+    private String[] hostList = {
+            "/participants", "/participants/**",
+    };
+
+    public String[] getVersionedList(String[] apiList) {
+        return Arrays.stream(apiList)
+                .map(path -> apiVersion + path)
+                .toArray(String[]::new);
+    }
 
 
     // CORS 설정
@@ -70,10 +70,10 @@ public class SecurityConfig {
 //                .sessionManagement(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> {
                     auth
-                            .requestMatchers("/**").permitAll()
-//                            .requestMatchers(getVersionedList(attendeeList)).permitAll()
-//                            .requestMatchers(getVersionedList(hostList)).permitAll()
-//                            .anyRequest().authenticated()
+//                            .requestMatchers("/**").permitAll()
+                            .requestMatchers(getVersionedList(attendeeList)).permitAll()
+                            .requestMatchers(getVersionedList(hostList)).permitAll()
+                            .anyRequest().authenticated()
                     ;
                 })
 //                .addFilterBefore(new JwtFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
