@@ -24,9 +24,13 @@ public class SecurityConfig {
 
     private final JwtUtils jwtUtils;
     private String apiVersion = "/api/v1";
+    private String[] devList = {
+            "/",
+            "/health",
+    };
+
     private String[] attendeeList = {
             "/", "/**",
-            "/health",
             "/test", "/test/**",
             "/user", "/users/**",
             "/events", "/events/**",
@@ -76,7 +80,7 @@ public class SecurityConfig {
                             .anyRequest().authenticated()
                     ;
                 })
-//                .addFilterBefore(new JwtFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
 
         ;
         return http.build();
