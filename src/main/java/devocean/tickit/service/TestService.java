@@ -1,7 +1,6 @@
 package devocean.tickit.service;
 
 import devocean.tickit.domain.User;
-import devocean.tickit.domain.UserInfo;
 import devocean.tickit.dto.auth.AuthenticationResponseDto;
 import devocean.tickit.dto.test.TestLogInRequestDto;
 import devocean.tickit.dto.test.TestSignInRequestDto;
@@ -10,7 +9,6 @@ import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.constant.Role;
 import devocean.tickit.global.jwt.JwtUtils;
-import devocean.tickit.repository.UserInfoRepository;
 import devocean.tickit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +23,6 @@ public class TestService {
 
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
-    private final UserInfoRepository userInfoRepository;
 
     public ApiResponse<?> signInforDev(TestSignInRequestDto requestDto) {
 
@@ -61,10 +58,6 @@ public class TestService {
                 .role(Role.ATTENDEE)
                 .build();
         userRepository.save(user);
-
-        // 최초 가입 시 함께 생성되어야 하는 tables : UserInfo
-        UserInfo userInfo = UserInfo.builder().build().setInitialUserInfo(user);
-        userInfoRepository.save(userInfo);
 
         log.info("사용자 회원가입 완료");
     }

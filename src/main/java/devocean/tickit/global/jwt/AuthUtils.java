@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,7 +28,7 @@ public class AuthUtils {
         return userRepository.findById(getCurrentUserId()).get();
     }
 
-    public UUID getCurrentUserId() {
+    public Long getCurrentUserId() {
         Object principalObject = getPrincipal();
 
         // principal이 UserDetails 인스턴스인지 확인
@@ -37,7 +36,7 @@ public class AuthUtils {
             UserDetails userDetails = (UserDetails) principalObject;
 
             // UserDetails 인스턴스에서 userId 획득
-            return UUID.fromString(userDetails.getUsername()); // userId는 UserDetails의 username에 저장되어 있음
+            return Long.parseLong(userDetails.getUsername()); // userId는 UserDetails의 username에 저장되어 있음
         }
         return null;
     }

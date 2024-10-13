@@ -5,7 +5,6 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import devocean.tickit.domain.User;
-import devocean.tickit.domain.UserInfo;
 import devocean.tickit.dto.auth.AuthenticationRequestDto;
 import devocean.tickit.dto.auth.AuthenticationResponseDto;
 import devocean.tickit.dto.user.UserDto;
@@ -14,7 +13,6 @@ import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.api.UnauthorizedException;
 import devocean.tickit.global.constant.Role;
 import devocean.tickit.global.jwt.JwtUtils;
-import devocean.tickit.repository.UserInfoRepository;
 import devocean.tickit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +33,6 @@ public class AuthenticationService {
     @Value("${google.clientid}")
     private String CLIENT_ID;
     private final UserRepository userRepository;
-    private final UserInfoRepository userInfoRepository;
     private final JwtUtils jwtUtils;
 
     @Transactional
@@ -103,10 +100,6 @@ public class AuthenticationService {
                 .build();
 
         userRepository.save(user);
-
-        // 최초 가입 시 함께 생성되어야 하는 tables : UserInfo
-        UserInfo userInfo = UserInfo.builder().build().setInitialUserInfo(user);
-        userInfoRepository.save(userInfo);
 
         log.info("사용자 회원가입 완료");
     }
