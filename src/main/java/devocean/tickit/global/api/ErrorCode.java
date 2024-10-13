@@ -41,6 +41,10 @@ public enum ErrorCode {
     // 00
     INTERNAL_SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류"),
 
+    // 600 User Error
+    // 01
+    _NOT_FOUND_USER(60001, HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
+
     ;
 
     private final Integer code;
