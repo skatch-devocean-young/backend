@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -36,8 +37,11 @@ public class User extends BaseEntity {
     @Column(name = "img_url", nullable = false, length = 2050)
     private String imgUrl;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserInfo userInfo;
+    @Column(name = "birthday")
+    private LocalDateTime birthday;
+
+    @Column(name = "phone", length = 11)
+    private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendee> attendees;
@@ -46,10 +50,12 @@ public class User extends BaseEntity {
     private List<Event> events;
 
     @Builder
-    public User(String name, String provider, String providerId, Role role, String imgUrl){
+    public User(String name, String provider, String providerId, Role role, String imgUrl, LocalDateTime birthday, String phone){
         this.name = name;
         this.provider = provider;
         this.providerId = providerId;
+        this.birthday = birthday;
+        this.phone = phone;
         this.role = Role.ATTENDEE;
         this.imgUrl = imgUrl;
     }
