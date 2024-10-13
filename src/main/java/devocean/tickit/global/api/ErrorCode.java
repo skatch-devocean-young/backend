@@ -41,6 +41,13 @@ public enum ErrorCode {
     // 00
     INTERNAL_SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 오류"),
 
+    // 600 User Error
+    // 01
+    _NOT_FOUND_USER(60001, HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다."),
+
+    // 700 Event Error
+    // 01
+    _ONLY_HOST_CAN_REGISTER_EVENT(70001, HttpStatus.BAD_REQUEST, "주최자만 행사를 등록할 수 있습니다."),
     ;
 
     private final Integer code;

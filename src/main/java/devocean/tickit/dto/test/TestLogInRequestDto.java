@@ -1,9 +1,8 @@
-package devocean.tickit.dto;
+package devocean.tickit.dto.test;
 
 import jakarta.validation.constraints.NotNull;
 
-public record TestSignInRequestDto(
-        @NotNull String name,
+public record TestLogInRequestDto(
         @NotNull String provider,
         @NotNull String providerId
 ) {

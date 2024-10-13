@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -24,54 +25,67 @@ public class Event extends BaseEntity {
     @JoinColumn(name = "users_id", foreignKey = @ForeignKey(name = "events_fk_users_id"))
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hosts_id", foreignKey = @ForeignKey(name = "events_fk_hosts_id"))
-    private Host host;
-
-    @Column(name = "title", nullable = false, length = 30)
+    @Column(name = "title", nullable = false, length = 50)
     private String title;
 
-    @Column(name = "description", nullable = false, length = 300)
-    private String description;
+    @Column(name = "event_start_date", nullable = false)
+    private LocalDateTime eventStartDate;
 
-    @Column(name = "entry_fee", nullable = false)
-    private Long entryFee;
+    @Column(name = "event_end_date", nullable = false)
+    private LocalDateTime eventEndDate;
+
+    @Column(name = "booking_start_date", nullable = false)
+    private LocalDateTime bookingStartDate;
+
+    @Column(name = "booking_end_date", nullable = false)
+    private LocalDateTime bookingEndDate;
+
+    @Column(name = "payment_start_date", nullable = false)
+    private LocalDateTime paymentStartDate;
+
+    @Column(name = "payment_end_date", nullable = false)
+    private LocalDateTime paymentEndDate;
+
+    @Column(name = "price", nullable = false)
+    private int price;
+
+    @Column(name = "place", nullable = false, length = 100)
+    private String place;
+
+    @Column(name = "capacity", nullable = false)
+    private int capacity;
+
+    @Column(name = "comment", length = 300)
+    private String comment;
+
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "progress_status", nullable = false)
     private ProgressStatus progressStatus;
 
-    @Column(name = "update_reason", length = 2000)
-    private String updateReason;
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendee> attendees;
 
     @OneToMany(mappedBy = "event")
-    private List<EventHash> eventHashes;
-
-    @OneToMany(mappedBy = "event")
-    private List<Star> stars;
-
-    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private EventInfo eventInfo;
-
-    @OneToMany(mappedBy = "event")
     private List<EventImg> eventImgs;
 
-    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-    private EventPlace eventPlace;
-
-    @OneToOne(mappedBy = "event")
-    private EventTicket eventTicket;
-
     @Builder
-    public Event(User user, Host host, String title, String description){
+    public Event(User user, String title, LocalDateTime eventStartDate, LocalDateTime eventEndDate, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, LocalDateTime paymentStartDate, LocalDateTime paymentEndDate, int price, String place, int capacity, String comment, String description){
         this.user = user;
-        this.host = host;
         this.title = title;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+        this.bookingStartDate = bookingStartDate;
+        this.bookingEndDate = bookingEndDate;
+        this.paymentStartDate = paymentStartDate;
+        this.paymentEndDate = paymentEndDate;
+        this.price = price;
+        this.place = place;
+        this.capacity = capacity;
+        this.comment = comment;
         this.description = description;
-        this.entryFee = 0L;
         this.progressStatus = ProgressStatus.WANTED;
     }
 }

@@ -1,7 +1,10 @@
 package devocean.tickit.global.jwt;
 
+import devocean.tickit.dto.user.UserDto;
+import devocean.tickit.global.api.CustomException;
 import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.api.UnauthorizedException;
+import devocean.tickit.repository.UserRepository;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +14,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import devocean.tickit.dto.UserDto;
 
 import java.util.Collections;
 import java.util.Date;
@@ -32,7 +34,9 @@ public class JwtUtils {
     private long refreshTokenTime; // 30일
     @Value("${jwt.key}")
     private String jwtSecretKey;
+
     private final StringRedisTemplate stringRedisTemplate;
+    private final UserRepository userRepository;
 
     public String createAccessToken(UserDto userDto) {
         Claims claims = Jwts.claims();
@@ -85,8 +89,8 @@ public class JwtUtils {
         }
         try {
             Claims claims = Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(token).getBody();
+            log.info("token \"id\" : " + claims.get("id"));
             log.info("token \"role\" : " + claims.get("role"));
-            log.info("token \"name\" : " + claims.get("name"));
             return true;
         } catch (MalformedJwtException e) {
             throw new UnauthorizedException(ErrorCode.INVALID_JWT);
@@ -133,6 +137,22 @@ public class JwtUtils {
 
     public String getRoleValueFromToken(String token) {
         return getClaims(token).get("role").toString();
+    }
+
+    // 응답 헤더에서 토큰을 반환하는 메서드
+    public String getTokenFromHeader(String authorizationHeader) {
+        return authorizationHeader.substring(7);
+    }
+
+    // 헤더에서 유저를 반환하는 메서드
+    public devocean.tickit.domain.User getUserFromHeader(String authorizationHeader) {
+        String token = getTokenFromHeader(authorizationHeader);
+        validateToken(token);
+
+        Long userId = Long.parseLong(getClaims(token).get("id").toString());
+
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_USER));
     }
 
     public Claims getClaims(String token) {

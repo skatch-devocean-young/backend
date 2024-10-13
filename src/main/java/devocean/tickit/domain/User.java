@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,9 +17,9 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "users_id")
-    private UUID id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 20)
     private String name;
@@ -37,8 +37,11 @@ public class User extends BaseEntity {
     @Column(name = "img_url", nullable = false, length = 2050)
     private String imgUrl;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private UserInfo userInfo;
+    @Column(name = "birthday")
+    private LocalDateTime birthday;
+
+    @Column(name = "phone", length = 11)
+    private String phone;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendee> attendees;
@@ -46,14 +49,13 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private List<Event> events;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Star> stars;
-
     @Builder
-    public User(String name, String provider, String providerId, Role role, String imgUrl){
+    public User(String name, String provider, String providerId, Role role, String imgUrl, LocalDateTime birthday, String phone){
         this.name = name;
         this.provider = provider;
         this.providerId = providerId;
+        this.birthday = birthday;
+        this.phone = phone;
         this.role = Role.ATTENDEE;
         this.imgUrl = imgUrl;
     }
