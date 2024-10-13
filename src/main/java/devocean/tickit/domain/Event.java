@@ -50,7 +50,7 @@ public class Event extends BaseEntity {
     private int price;
 
     @Column(name = "place", nullable = false, length = 100)
-    private int place;
+    private String place;
 
     @Column(name = "capacity", nullable = false)
     private int capacity;
@@ -72,7 +72,7 @@ public class Event extends BaseEntity {
     private List<EventImg> eventImgs;
 
     @Builder
-    public Event(User user, String title, LocalDateTime eventStartDate, LocalDateTime eventEndDate, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, LocalDateTime paymentStartDate, LocalDateTime paymentEndDate, int price, int place, int capacity, String comment, String description){
+    public Event(User user, String title, LocalDateTime eventStartDate, LocalDateTime eventEndDate, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, LocalDateTime paymentStartDate, LocalDateTime paymentEndDate, int price, String place, int capacity, String comment, String description){
         this.user = user;
         this.title = title;
         this.eventStartDate = eventStartDate;
