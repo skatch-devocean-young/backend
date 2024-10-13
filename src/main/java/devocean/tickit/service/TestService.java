@@ -2,10 +2,10 @@ package devocean.tickit.service;
 
 import devocean.tickit.domain.User;
 import devocean.tickit.domain.UserInfo;
-import devocean.tickit.dto.AuthenticationResponseDto;
-import devocean.tickit.dto.TestLogInRequestDto;
-import devocean.tickit.dto.TestSignInRequestDto;
-import devocean.tickit.dto.UserDto;
+import devocean.tickit.dto.auth.AuthenticationResponseDto;
+import devocean.tickit.dto.test.TestLogInRequestDto;
+import devocean.tickit.dto.test.TestSignInRequestDto;
+import devocean.tickit.dto.user.UserDto;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.constant.Role;

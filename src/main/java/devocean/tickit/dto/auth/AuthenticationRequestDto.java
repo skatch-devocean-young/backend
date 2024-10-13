@@ -1,4 +1,4 @@
-package devocean.tickit.dto;
+package devocean.tickit.dto.auth;
 
 import jakarta.validation.constraints.NotNull;
 

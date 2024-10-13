@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-import devocean.tickit.dto.UserDto;
+import devocean.tickit.dto.user.UserDto;
 
 import java.util.Collections;
 import java.util.Date;

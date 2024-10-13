@@ -1,7 +1,7 @@
 package devocean.tickit.controller;
 
-import devocean.tickit.dto.TestLogInRequestDto;
-import devocean.tickit.dto.TestSignInRequestDto;
+import devocean.tickit.dto.test.TestLogInRequestDto;
+import devocean.tickit.dto.test.TestSignInRequestDto;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.service.TestService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package devocean.tickit.controller;
 
 import devocean.tickit.global.api.ApiResponse;
-import devocean.tickit.dto.AuthenticationRequestDto;
+import devocean.tickit.dto.auth.AuthenticationRequestDto;
 import devocean.tickit.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
