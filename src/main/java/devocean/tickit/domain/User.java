@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,9 +16,9 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "users_id")
-    private UUID id;
+    private Long id;
 
     @Column(name = "name", nullable = false, length = 20)
     private String name;
@@ -45,9 +44,6 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Event> events;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Star> stars;
 
     @Builder
     public User(String name, String provider, String providerId, Role role, String imgUrl){
