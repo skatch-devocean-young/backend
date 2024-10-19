@@ -3,7 +3,7 @@ package devocean.tickit.service;
 import devocean.tickit.domain.Event;
 import devocean.tickit.domain.User;
 import devocean.tickit.dto.event.AddEventRequestDto;
-import devocean.tickit.global.api.CustomException;
+import devocean.tickit.global.exception.CustomException;
 import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.constant.Role;
 import devocean.tickit.global.jwt.JwtUtils;
