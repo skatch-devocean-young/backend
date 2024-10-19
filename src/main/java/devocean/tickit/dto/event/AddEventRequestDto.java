@@ -20,7 +20,7 @@ public record AddEventRequestDto(
         @NotNull(message = "주최자 한마디는 필수값입니다.") String comment,
         @NotNull(message = "상세 설명은 필수값입니다.") String description
 ) {
-        public Event toEntity(User user) {
+        public Event toEntity(User user, String posterImgUrl) {
                 return Event.builder()
                         .user(user)
                         .title(title)
@@ -35,6 +35,7 @@ public record AddEventRequestDto(
                         .capacity(capacity)
                         .comment(comment)
                         .description(description)
+                        .posterImgUrl(posterImgUrl)
                         .build();
         }
 }

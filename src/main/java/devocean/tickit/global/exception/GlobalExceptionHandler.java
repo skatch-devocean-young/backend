@@ -1,5 +1,8 @@
-package devocean.tickit.global.api;
+package devocean.tickit.global.exception;
 
+import devocean.tickit.global.api.ApiResponse;
+import devocean.tickit.global.api.ErrorCode;
+import devocean.tickit.global.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;

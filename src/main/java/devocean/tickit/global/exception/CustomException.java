@@ -1,5 +1,6 @@
-package devocean.tickit.global.api;
+package devocean.tickit.global.exception;
 
+import devocean.tickit.global.api.ErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

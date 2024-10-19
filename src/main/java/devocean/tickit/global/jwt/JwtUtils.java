@@ -1,9 +1,9 @@
 package devocean.tickit.global.jwt;
 
 import devocean.tickit.dto.user.UserDto;
-import devocean.tickit.global.api.CustomException;
+import devocean.tickit.global.exception.CustomException;
 import devocean.tickit.global.api.ErrorCode;
-import devocean.tickit.global.api.UnauthorizedException;
+import devocean.tickit.global.exception.UnauthorizedException;
 import devocean.tickit.repository.UserRepository;
 import io.jsonwebtoken.*;
 import jakarta.servlet.http.HttpServletRequest;

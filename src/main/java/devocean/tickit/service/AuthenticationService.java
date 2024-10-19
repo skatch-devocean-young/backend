@@ -10,7 +10,7 @@ import devocean.tickit.dto.auth.AuthenticationResponseDto;
 import devocean.tickit.dto.user.UserDto;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.global.api.ErrorCode;
-import devocean.tickit.global.api.UnauthorizedException;
+import devocean.tickit.global.exception.UnauthorizedException;
 import devocean.tickit.global.constant.Role;
 import devocean.tickit.global.jwt.JwtUtils;
 import devocean.tickit.repository.UserRepository;
