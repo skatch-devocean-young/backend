@@ -1,4 +1,5 @@
 application-**.yml
+**/resources/*.json
 HELP.md
 .gradle
 build/
