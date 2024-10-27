@@ -49,6 +49,7 @@ public enum ErrorCode {
     // 01
     _ONLY_HOST_CAN_REGISTER_EVENT(70001, HttpStatus.BAD_REQUEST, "주최자만 행사를 등록할 수 있습니다."),
     _ONLY_HOST_CAN_VIEW_MY_EVENT(70002, HttpStatus.BAD_REQUEST, "주최자만 본인의 행사를 조회할 수 있습니다."),
+    _NOT_FOUND_EVENT(70003, HttpStatus.BAD_REQUEST, "이벤트를 찾을 수 없습니다."),
     ;
 
     private final Integer code;

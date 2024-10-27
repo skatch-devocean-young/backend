@@ -2,6 +2,7 @@ package devocean.tickit.controller;
 
 import devocean.tickit.dto.event.request.AddEventRequest;
 import devocean.tickit.dto.event.response.GetAllUserEventsResponse;
+import devocean.tickit.dto.event.response.GetUserEventDetailResponse;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.service.EventService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,16 @@ public class EventController {
             @RequestHeader("Authorization") String authorizationHeader){
 
         List<GetAllUserEventsResponse> response = eventService.getAllUserEvents(authorizationHeader);
+        return ApiResponse.ok(response);
+    }
+
+    // 주최자 특정 행사 상세 조회 API
+    @GetMapping("/{eventId}")
+    public ApiResponse<GetUserEventDetailResponse> getUserEventDetail(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable("eventId") Long eventId){
+
+        GetUserEventDetailResponse response = eventService.getUserEventDetail(authorizationHeader, eventId);
         return ApiResponse.ok(response);
     }
 }

@@ -4,9 +4,10 @@ import devocean.tickit.domain.Event;
 import devocean.tickit.domain.User;
 import devocean.tickit.dto.event.request.AddEventRequest;
 import devocean.tickit.dto.event.response.GetAllUserEventsResponse;
-import devocean.tickit.global.exception.CustomException;
+import devocean.tickit.dto.event.response.GetUserEventDetailResponse;
 import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.constant.Role;
+import devocean.tickit.global.exception.CustomException;
 import devocean.tickit.global.jwt.JwtUtils;
 import devocean.tickit.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -54,5 +54,18 @@ public class EventService {
         return eventRepository.findAllByUser(user).stream()
                 .map(GetAllUserEventsResponse::from)
                 .toList();
+    }
+
+    // 주최자가 본인의 특정 행사를 상세 조회하는 메서드
+    @Transactional(readOnly = true)
+    public GetUserEventDetailResponse getUserEventDetail(String authorizationHeader, Long eventId) {
+
+        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        if (!Role.ORGANIZER.equals(user.getRole())) {
+            throw new CustomException(ErrorCode._ONLY_HOST_CAN_VIEW_MY_EVENT);
+        }
+
+        return GetUserEventDetailResponse.from(eventRepository.findByUserAndId(user, eventId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_EVENT)));
     }
 }
