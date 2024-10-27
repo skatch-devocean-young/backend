@@ -1,6 +1,7 @@
 package devocean.tickit.controller;
 
-import devocean.tickit.dto.event.request.AddEventRequest;
+import devocean.tickit.dto.event.request.AddUserEventRequest;
+import devocean.tickit.dto.event.request.ModifyUserEventRequest;
 import devocean.tickit.dto.event.response.GetAllUserEventsResponse;
 import devocean.tickit.dto.event.response.GetUserEventDetailResponse;
 import devocean.tickit.global.api.ApiResponse;
@@ -21,12 +22,12 @@ public class EventController {
 
     // 주최자 행사 등록 API
     @PostMapping
-    public ApiResponse<Object> addEvent(
+    public ApiResponse<Object> addUserEvent(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestPart("addEventRequestDto") AddEventRequest addEventRequestDto,
+            @RequestPart("addEventRequestDto") AddUserEventRequest addEventRequestDto,
             @RequestPart("file") MultipartFile multipartFile) throws IOException {
 
-        eventService.addEvent(authorizationHeader, addEventRequestDto, multipartFile);
+        eventService.addUserEvent(authorizationHeader, addEventRequestDto, multipartFile);
         return ApiResponse.created(null);
     }
 
@@ -47,5 +48,16 @@ public class EventController {
 
         GetUserEventDetailResponse response = eventService.getUserEventDetail(authorizationHeader, eventId);
         return ApiResponse.ok(response);
+    }
+
+    // 주최자 특정 행사 수정 API
+    @PatchMapping("/{eventId}")
+    public ApiResponse<Object> modifyUserEvent(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody ModifyUserEventRequest request,
+            @PathVariable("eventId") Long eventId){
+
+        eventService.modifyUserEvent(authorizationHeader, request, eventId);
+        return ApiResponse.ok(null);
     }
 }

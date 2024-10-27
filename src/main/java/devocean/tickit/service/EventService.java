@@ -2,7 +2,8 @@ package devocean.tickit.service;
 
 import devocean.tickit.domain.Event;
 import devocean.tickit.domain.User;
-import devocean.tickit.dto.event.request.AddEventRequest;
+import devocean.tickit.dto.event.request.AddUserEventRequest;
+import devocean.tickit.dto.event.request.ModifyUserEventRequest;
 import devocean.tickit.dto.event.response.GetAllUserEventsResponse;
 import devocean.tickit.dto.event.response.GetUserEventDetailResponse;
 import devocean.tickit.global.api.ErrorCode;
@@ -28,9 +29,9 @@ public class EventService {
     private final JwtUtils jwtUtils;
     private final StorageService storageService;
 
-    // 주최자가 이벤트를 등록하는 메서드
+    // 주최자가 행사를 등록하는 메서드
     @Transactional
-    public void addEvent(String authorizationHeader, AddEventRequest addEventRequestDto, MultipartFile multipartFile) throws IOException {
+    public void addUserEvent(String authorizationHeader, AddUserEventRequest addEventRequestDto, MultipartFile multipartFile) throws IOException {
 
         User user = jwtUtils.getUserFromHeader(authorizationHeader);
         if (!Role.ORGANIZER.equals(user.getRole())) {
@@ -67,5 +68,56 @@ public class EventService {
 
         return GetUserEventDetailResponse.from(eventRepository.findByUserAndId(user, eventId)
                 .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_EVENT)));
+    }
+
+    // 주최자가 특정 행사를 수정하는 메서드
+    @Transactional
+    public void modifyUserEvent(String authorizationHeader, ModifyUserEventRequest request, Long eventId) {
+
+        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        if (!Role.ORGANIZER.equals(user.getRole())) {
+            throw new CustomException(ErrorCode._ONLY_HOST_CAN_REGISTER_EVENT);
+        }
+        Event event = eventRepository.findByUserAndId(user, eventId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_EVENT));
+
+        if (request.title() != null) {
+            event.updateTitle(request.title());
+        }
+        if (request.eventStartDate() != null) {
+            event.updateEventStartDate(request.eventStartDate());
+        }
+        if (request.eventEndDate() != null) {
+            event.updateEventEndDate(request.eventEndDate());
+        }
+        if (request.bookingStartDate() != null) {
+            event.updateBookingStartDate(request.bookingStartDate());
+        }
+        if (request.bookingEndDate() != null) {
+            event.updateBookingEndDate(request.bookingEndDate());
+        }
+        if (request.paymentStartDate() != null) {
+            event.updatePaymentStartDate(request.paymentStartDate());
+        }
+        if (request.paymentEndDate() != null) {
+            event.updatePaymentEndDate(request.paymentEndDate());
+        }
+        if (request.price() != 0) {
+            event.updatePrice(request.price());
+        }
+        if (request.place() != null) {
+            event.updatePlace(request.place());
+        }
+        if (request.capacity() != 0) {
+            event.updateCapacity(request.capacity());
+        }
+        if (request.comment() != null) {
+            event.updateComment(request.comment());
+        }
+        if (request.description() != null) {
+            event.updateDescription(request.description());
+        }
+
+        eventRepository.save(event);
     }
 }
