@@ -26,6 +26,7 @@ public record GetAllUserEventsResponse(
                 event.getCapacity(),
                 event.getBookingStartDate(),
                 event.getBookingEndDate(),
-                event.getPosterImgUrl());
+                event.getPosterImgUrl()
+        );
     }
 }
