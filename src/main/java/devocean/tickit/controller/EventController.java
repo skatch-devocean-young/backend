@@ -3,6 +3,7 @@ package devocean.tickit.controller;
 import devocean.tickit.dto.event.AddEventRequestDto;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.service.EventService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,12 +21,11 @@ public class EventController {
     @PostMapping("/action-open")
     public ApiResponse<?> addEvent(
             @RequestHeader("Authorization") String authorizationHeader,
-            @RequestPart("addEventRequestDto") AddEventRequestDto addEventRequestDto,
+            @Valid @RequestPart("addEventRequestDto") AddEventRequestDto addEventRequestDto,
             @RequestPart("file") MultipartFile multipartFile) throws IOException {
 
         eventService.addEvent(authorizationHeader, addEventRequestDto, multipartFile);
 
         return ApiResponse.created(null);
     }
-
 }
