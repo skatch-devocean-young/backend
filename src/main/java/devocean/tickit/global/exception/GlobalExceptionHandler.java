@@ -111,6 +111,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ApiResponse.onFailure(ErrorCode.UNSUPPORTED_MEDIA_TYPE, errorMessage);
     }
 
+    // MissingRequestHeaderException 처리 (필수 헤더가 입력되지 않은 경우)
+    @ExceptionHandler(org.springframework.web.bind.MissingRequestHeaderException.class)
+    public ResponseEntity<Object> handleMissingRequestHeaderException(org.springframework.web.bind.MissingRequestHeaderException ex) {
+        String errorMessage = "필수 헤더 '" + ex.getHeaderName() + "'가 없습니다.";
+        logError("MissingRequestHeaderException", errorMessage);
+        return ApiResponse.onFailure(ErrorCode.UNAUTHORIZED, errorMessage);
+    }
+
     // 내부 서버 에러 처리 (500)
     @ExceptionHandler(Exception.class)
     public ApiResponse<ErrorCode> handleException(Exception e) {
