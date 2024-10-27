@@ -1,4 +1,4 @@
-package devocean.tickit.dto.event;
+package devocean.tickit.dto.event.request;
 
 import devocean.tickit.domain.Event;
 import devocean.tickit.domain.User;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record AddEventRequestDto(
+public record AddEventRequest(
         @NotNull(message = "행사명은 필수값입니다.") String title,
         @NotNull(message = "행사 시작 시각은 필수값입니다.") String eventStartDate,
         @NotNull(message = "행사 종료 시각은 필수값입니다.") String eventEndDate,
