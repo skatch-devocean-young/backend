@@ -17,7 +17,7 @@ public class EventController {
     private final EventService eventService;
 
     // 행사 등록 API
-    @PostMapping("/action-open")
+    @PostMapping
     public ApiResponse<?> addEvent(
             @RequestHeader("Authorization") String authorizationHeader,
             @RequestPart("addEventRequestDto") AddEventRequestDto addEventRequestDto,
@@ -27,5 +27,4 @@ public class EventController {
 
         return ApiResponse.created(null);
     }
-
 }
