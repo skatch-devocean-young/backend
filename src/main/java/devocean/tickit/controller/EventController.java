@@ -60,4 +60,14 @@ public class EventController {
         eventService.modifyUserEvent(authorizationHeader, request, eventId);
         return ApiResponse.ok(null);
     }
+
+    // 주최자 특정 행사 삭제 API
+    @DeleteMapping("/{eventId}")
+    public ApiResponse<Object> removeUserEvent(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @PathVariable("eventId") Long eventId){
+
+        eventService.removeUserEvent(authorizationHeader, eventId);
+        return ApiResponse.ok(null);
+    }
 }

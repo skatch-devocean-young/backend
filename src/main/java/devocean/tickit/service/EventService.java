@@ -120,4 +120,17 @@ public class EventService {
 
         eventRepository.save(event);
     }
+
+    // 주최자가 특정 행사를 삭제하는 메서드
+    @Transactional
+    public void removeUserEvent(String authorizationHeader, Long eventId) {
+
+        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        if (!Role.ORGANIZER.equals(user.getRole())) {
+            throw new CustomException(ErrorCode._ONLY_HOST_CAN_REGISTER_EVENT);
+        }
+        Event event = eventRepository.findByUserAndId(user, eventId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_EVENT));
+        eventRepository.delete(event);
+    }
 }
