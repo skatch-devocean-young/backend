@@ -13,4 +13,11 @@ public record ExceptionDto(
                 errorCode.getMessage()
         );
     }
+
+    public static ExceptionDto containMessageOf(ErrorCode errorCode, String message) {
+        return new ExceptionDto(
+                errorCode.getCode(),
+                message
+        );
+    }
 }
