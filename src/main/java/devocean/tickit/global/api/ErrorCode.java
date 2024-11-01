@@ -12,6 +12,10 @@ public enum ErrorCode {
     // 00
     UNCUSTOMED_ERROR(00000, HttpStatus.OK, "서버 에러 커스텀이 필요"),
 
+    // 400 BAD REQUEST
+    // 01
+    BAD_REQUEST(40001, HttpStatus.BAD_REQUEST, "입력 값이 잘못된 요청 입니다."),
+
     // 401 UNAUTHORIZED
     // 01
     INVALID_GOOGLE_TOKEN(40101, HttpStatus.UNAUTHORIZED, "유효하지 않은 Google ID Token"),
@@ -25,17 +29,29 @@ public enum ErrorCode {
     JWT_EXPIRED(40105, HttpStatus.UNAUTHORIZED, "만료된 토큰"),
     // 06
     INVALID_TEST_USER(40106, HttpStatus.UNAUTHORIZED, "존재하지 않는 테스트 사용자"),
+    // 07
+    UNAUTHORIZED(40107, HttpStatus.UNAUTHORIZED, "인증이 필요 합니다."),
 
     // 404 Not Found
     // 00
     NOT_FOUND(40400, HttpStatus.NOT_FOUND, "존재하지 않음"),
     // 01
     NOT_FOUND_END_POINT(40401, HttpStatus.NOT_FOUND, "존재하지 않는 API"),
+    // 02
+    NOT_FOUND_HANDLER(40402, HttpStatus.NOT_FOUND, "해당 경로에 대한 핸들러를 찾을 수 없습니다."),
+
+    // 405
+    // 01
+    METHOD_NOT_ALLOWED(40501, HttpStatus.METHOD_NOT_ALLOWED, "허용되지 않은 요청 메소드입니다."),
 
     // 409
     // 00
     // 01
     DUPLICATED_ID(40901, HttpStatus.CONFLICT, "ID 중복"),
+
+    // 415 UNSUPPORTED_MEDIA_TYPE
+    // 01
+    UNSUPPORTED_MEDIA_TYPE(41501, HttpStatus.UNSUPPORTED_MEDIA_TYPE, "지원되지 않는 미디어 타입입니다."),
 
     // 500 Internal Server Error
     // 00
@@ -48,6 +64,8 @@ public enum ErrorCode {
     // 700 Event Error
     // 01
     _ONLY_HOST_CAN_REGISTER_EVENT(70001, HttpStatus.BAD_REQUEST, "주최자만 행사를 등록할 수 있습니다."),
+    _ONLY_HOST_CAN_VIEW_MY_EVENT(70002, HttpStatus.BAD_REQUEST, "주최자만 본인의 행사를 조회할 수 있습니다."),
+    _NOT_FOUND_EVENT(70003, HttpStatus.NOT_FOUND, "이벤트를 찾을 수 없습니다."),
     ;
 
     private final Integer code;

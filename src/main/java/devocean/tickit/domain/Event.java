@@ -65,6 +65,9 @@ public class Event extends BaseEntity {
     @Column(name = "progress_status", nullable = false)
     private ProgressStatus progressStatus;
 
+    @Column(name = "poster_img_url", nullable = false, length = 500)
+    private String posterImgUrl;
+
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendee> attendees;
 
@@ -72,7 +75,7 @@ public class Event extends BaseEntity {
     private List<EventImg> eventImgs;
 
     @Builder
-    public Event(User user, String title, LocalDateTime eventStartDate, LocalDateTime eventEndDate, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, LocalDateTime paymentStartDate, LocalDateTime paymentEndDate, int price, String place, int capacity, String comment, String description){
+    public Event(User user, String title, LocalDateTime eventStartDate, LocalDateTime eventEndDate, LocalDateTime bookingStartDate, LocalDateTime bookingEndDate, LocalDateTime paymentStartDate, LocalDateTime paymentEndDate, int price, String place, int capacity, String comment, String description, String posterImgUrl){
         this.user = user;
         this.title = title;
         this.eventStartDate = eventStartDate;
@@ -87,5 +90,54 @@ public class Event extends BaseEntity {
         this.comment = comment;
         this.description = description;
         this.progressStatus = ProgressStatus.WANTED;
+        this.posterImgUrl = posterImgUrl;
+    }
+
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateEventStartDate(LocalDateTime eventStartDate) {
+        this.eventStartDate = eventStartDate;
+    }
+
+    public void updateEventEndDate(LocalDateTime eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+
+    public void updateBookingStartDate(LocalDateTime bookingStartDate) {
+        this.bookingStartDate = bookingStartDate;
+    }
+
+    public void updateBookingEndDate(LocalDateTime bookingEndDate) {
+        this.bookingEndDate = bookingEndDate;
+    }
+
+    public void updatePaymentStartDate(LocalDateTime paymentStartDate) {
+        this.paymentStartDate = paymentStartDate;
+    }
+
+    public void updatePaymentEndDate(LocalDateTime paymentEndDate) {
+        this.paymentEndDate = paymentEndDate;
+    }
+
+    public void updatePrice(int price) {
+        this.price = price;
+    }
+
+    public void updatePlace(String place) {
+        this.place = place;
+    }
+
+    public void updateCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void updateComment(String comment) {
+        this.comment = comment;
+    }
+
+    public void updateDescription(String description) {
+        this.description = description;
     }
 }
