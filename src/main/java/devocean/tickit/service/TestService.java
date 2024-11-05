@@ -37,6 +37,7 @@ public class TestService {
         UserDto userDto = UserDto.builder()
                 .id(user.get().getId())
                 .role(Role.ATTENDEE)
+                .name(user.get().getName())
                 .build();
 
         // user uuid & role로 jwt 생성
@@ -72,6 +73,7 @@ public class TestService {
         UserDto userDto = UserDto.builder()
                 .id(optionalUser.get().getId())
                 .role(optionalUser.get().getRole())
+                .name(optionalUser.get().getName())
                 .build();
 
         // 기존에 발급했던 refreshToken block하기

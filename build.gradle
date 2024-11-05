@@ -45,6 +45,8 @@ dependencies {
     implementation group: 'com.google.http-client', name: 'google-http-client-jackson2', version: '1.42.2'
     // GCS
     implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:5.3.0'
+    // org.json
+    implementation 'org.json:json:20210307'
 }
 
 tasks.named('test') {

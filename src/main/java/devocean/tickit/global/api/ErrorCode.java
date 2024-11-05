@@ -18,7 +18,7 @@ public enum ErrorCode {
 
     // 401 UNAUTHORIZED
     // 01
-    INVALID_GOOGLE_TOKEN(40101, HttpStatus.UNAUTHORIZED, "유효하지 않은 Google ID Token"),
+    INVALID_SOCIAL_TOKEN(40101, HttpStatus.UNAUTHORIZED, "유효하지 않은 Google ID Token"),
     // 02
     JWT_TOKEN_NOT_EXISTS(40102, HttpStatus.UNAUTHORIZED, "토큰이 존재하지 않음"),
     // 03
