@@ -9,15 +9,13 @@ import devocean.tickit.dto.event.response.GetUserEventDetailResponse;
 import devocean.tickit.global.api.ErrorCode;
 import devocean.tickit.global.constant.Role;
 import devocean.tickit.global.exception.CustomException;
-import devocean.tickit.global.jwt.JwtUtils;
 import devocean.tickit.repository.EventRepository;
+import devocean.tickit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -25,29 +23,29 @@ import java.util.List;
 @Service
 public class EventService {
 
+    private final UserRepository userRepository;
     private final EventRepository eventRepository;
-    private final JwtUtils jwtUtils;
-    private final StorageService storageService;
 
     // 주최자가 행사를 등록하는 메서드
     @Transactional
-    public void addUserEvent(String authorizationHeader, AddUserEventRequest addEventRequestDto, MultipartFile multipartFile) throws IOException {
+    public void addUserEvent(Long userId, AddUserEventRequest addEventRequestDto) {
 
-        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_USER));
         if (!Role.ORGANIZER.equals(user.getRole())) {
             throw new CustomException(ErrorCode._ONLY_HOST_CAN_REGISTER_EVENT);
         }
-        String posterImg = storageService.uploadFile(multipartFile);
-        Event event = addEventRequestDto.toEntity(user, posterImg);
+        Event event = addEventRequestDto.toEntity(user);
 
         eventRepository.save(event);
     }
 
     // 주최자가 본인의 모든 이벤트를 조회하는 메서드
     @Transactional(readOnly = true)
-    public List<GetAllUserEventsResponse> getAllUserEvents(String authorizationHeader) {
+    public List<GetAllUserEventsResponse> getAllUserEvents(Long userId) {
 
-        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_USER));
         if (!Role.ORGANIZER.equals(user.getRole())) {
             throw new CustomException(ErrorCode._ONLY_HOST_CAN_VIEW_MY_EVENT);
         }
@@ -59,9 +57,10 @@ public class EventService {
 
     // 주최자가 본인의 특정 행사를 상세 조회하는 메서드
     @Transactional(readOnly = true)
-    public GetUserEventDetailResponse getUserEventDetail(String authorizationHeader, Long eventId) {
+    public GetUserEventDetailResponse getUserEventDetail(Long userId, Long eventId) {
 
-        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_USER));
         if (!Role.ORGANIZER.equals(user.getRole())) {
             throw new CustomException(ErrorCode._ONLY_HOST_CAN_VIEW_MY_EVENT);
         }
@@ -72,9 +71,10 @@ public class EventService {
 
     // 주최자가 특정 행사를 수정하는 메서드
     @Transactional
-    public void modifyUserEvent(String authorizationHeader, ModifyUserEventRequest request, Long eventId) {
+    public void modifyUserEvent(Long userId, ModifyUserEventRequest request, Long eventId) {
 
-        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_USER));
         if (!Role.ORGANIZER.equals(user.getRole())) {
             throw new CustomException(ErrorCode._ONLY_HOST_CAN_REGISTER_EVENT);
         }
@@ -123,9 +123,10 @@ public class EventService {
 
     // 주최자가 특정 행사를 삭제하는 메서드
     @Transactional
-    public void removeUserEvent(String authorizationHeader, Long eventId) {
+    public void removeUserEvent(Long userId, Long eventId) {
 
-        User user = jwtUtils.getUserFromHeader(authorizationHeader);
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(ErrorCode._NOT_FOUND_USER));
         if (!Role.ORGANIZER.equals(user.getRole())) {
             throw new CustomException(ErrorCode._ONLY_HOST_CAN_REGISTER_EVENT);
         }

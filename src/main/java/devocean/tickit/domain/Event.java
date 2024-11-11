@@ -65,7 +65,7 @@ public class Event extends BaseEntity {
     @Column(name = "progress_status", nullable = false)
     private ProgressStatus progressStatus;
 
-    @Column(name = "poster_img_url", nullable = false, length = 500)
+    @Column(name = "poster_img_url", length = 500)
     private String posterImgUrl;
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
