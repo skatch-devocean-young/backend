@@ -21,7 +21,15 @@ public class EventController {
 
     private final EventService eventService;
 
-    // 주최자 행사 등록 API
+    /**
+     * 주최자가 새로운 행사를 등록한다
+     *
+     * @param authorizationHeader 인증 토큰 헤더
+     * @param addEventRequestDto  행사 등록 요청 정보 (행사명, 날짜, 장소 등)
+     * @param multipartFile       행사 이미지 파일
+     * @return 생성된 행사에 대한 응답
+     * @throws IOException 이미지 파일 처리 중 오류가 발생할 경우
+     */
     @PostMapping
     public ApiResponse<Object> addUserEvent(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -32,7 +40,12 @@ public class EventController {
         return ApiResponse.created(null);
     }
 
-    // 주최자 행사 전체 조회 API
+    /**
+     * 주최자가 등록한 모든 행사 정보를 조회한다.
+     *
+     * @param authorizationHeader 인증 토큰 헤더
+     * @return 주최자가 등록한 행사 목록
+     */
     @GetMapping
     public ApiResponse<List<GetAllUserEventsResponse>> getAllUserEvents(
             @RequestHeader("Authorization") String authorizationHeader){
@@ -41,7 +54,13 @@ public class EventController {
         return ApiResponse.ok(response);
     }
 
-    // 주최자 특정 행사 상세 조회 API
+    /**
+     * 특정 행사에 대한 상세 정보를 조회한다.
+     *
+     * @param authorizationHeader 인증 토큰 헤더
+     * @param eventId             조회할 행사 ID
+     * @return 특정 행사의 상세 정보
+     */
     @GetMapping("/{eventId}")
     public ApiResponse<GetUserEventDetailResponse> getUserEventDetail(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -51,7 +70,14 @@ public class EventController {
         return ApiResponse.ok(response);
     }
 
-    // 주최자 특정 행사 수정 API
+    /**
+     * 주최자가 특정 행사 정보를 수정한다.
+     *
+     * @param authorizationHeader 인증 토큰 헤더
+     * @param request             행사 수정 요청 정보 (변경할 필드들)
+     * @param eventId             수정할 행사 ID
+     * @return 수정 성공 여부 응답
+     */
     @PatchMapping("/{eventId}")
     public ApiResponse<Object> modifyUserEvent(
             @RequestHeader("Authorization") String authorizationHeader,
@@ -62,7 +88,13 @@ public class EventController {
         return ApiResponse.ok(null);
     }
 
-    // 주최자 특정 행사 삭제 API
+    /**
+     * 주최자가 특정 행사를 삭제한다.
+     *
+     * @param authorizationHeader 인증 토큰 헤더
+     * @param eventId             삭제할 행사 ID
+     * @return 삭제 성공 여부 응답
+     */
     @DeleteMapping("/{eventId}")
     public ApiResponse<Object> removeUserEvent(
             @RequestHeader("Authorization") String authorizationHeader,
