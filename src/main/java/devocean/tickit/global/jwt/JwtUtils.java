@@ -28,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Component
 public class JwtUtils {
+    @Value("${jwt.time.register}")
+    private long registerTokenTime; // 10분
     @Value("${jwt.time.access}")
     private long accessTokenTime; // 30일
     @Value("${jwt.time.refresh}")
@@ -37,6 +39,20 @@ public class JwtUtils {
 
     private final StringRedisTemplate stringRedisTemplate;
     private final UserRepository userRepository;
+
+    public String createRegisterToken(String provider, String providerId) {
+        log.info("create RegisterToken");
+        Claims claims = Jwts.claims();
+        claims.put("provider", provider);
+        claims.put("providerId", providerId);
+        Date now = new Date();
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + registerTokenTime))
+                .signWith(SignatureAlgorithm.HS256, jwtSecretKey)
+                .compact();
+    }
 
     public String createAccessToken(UserDto userDto) {
         Claims claims = Jwts.claims();

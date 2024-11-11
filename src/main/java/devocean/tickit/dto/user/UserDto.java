@@ -7,6 +7,7 @@ import lombok.Builder;
 @Builder
 public record UserDto(
         @NotNull Long id,
-        @NotNull Role role
+        @NotNull Role role,
+        @NotNull String name
         ) {
 }
