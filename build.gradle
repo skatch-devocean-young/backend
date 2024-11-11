@@ -46,7 +46,10 @@ dependencies {
     // GCS
     implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:5.3.0'
     // org.json
-    implementation 'org.json:json:20210307'
+    implementation 'org.json:json:20231013'
+    // Zxing
+    implementation 'com.google.zxing:core:3.5.1'
+    implementation 'com.google.zxing:javase:3.5.1'
 }
 
 tasks.named('test') {
