@@ -1,0 +1,533 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Tickit API Documentation",
+    "description" : "Spring REST Docs with Swagger UI.",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "https://ziio.store"
+  } ],
+  "tags" : [ ],
+  "paths" : {
+    "/api/v1/events/{userId}" : {
+      "get" : {
+        "tags" : [ "Event" ],
+        "summary" : "주최자가 등록한 모든 행사 정보를 조회한다.",
+        "description" : "주최자가 등록한 모든 행사 정보를 조회한다.",
+        "operationId" : "events/get-all",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "사용자 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetAllUserEventsResponseDto"
+                },
+                "examples" : {
+                  "events/get-all" : {
+                    "value" : "{\n  \"success\" : true,\n  \"data\" : [ {\n    \"eventId\" : 1,\n    \"title\" : \"Winter Folk Music Gathering 2024\",\n    \"eventStartDate\" : \"2024-12-30T17:00:00\",\n    \"eventEndDate\" : \"2024-12-30T21:00:00\",\n    \"place\" : \"Namsan Outdoor Stage\",\n    \"capacity\" : 150,\n    \"bookingStartDate\" : \"2024-11-20T00:00:00\",\n    \"bookingEndDate\" : \"2024-12-25T23:59:59\",\n    \"postImgUrl\" : \"example.jpg\"\n  } ],\n  \"error\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Event" ],
+        "summary" : "주최자가 새로운 행사를 등록한다.",
+        "description" : "주최자가 새로운 행사를 등록한다.",
+        "operationId" : "events/add",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "사용자 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AddUserEventRequestDto"
+              },
+              "examples" : {
+                "events/add" : {
+                  "value" : "{\n  \"title\" : \"Winter Folk Music Gathering 2024\",\n  \"eventStartDate\" : \"2024-12-30T17:00:00\",\n  \"eventEndDate\" : \"2024-12-30T21:00:00\",\n  \"bookingStartDate\" : \"2024-11-20T00:00:00\",\n  \"bookingEndDate\" : \"2024-12-25T23:59:59\",\n  \"paymentStartDate\" : \"2024-11-20T00:00:00\",\n  \"paymentEndDate\" : \"2024-12-20T23:59:59\",\n  \"price\" : 25000,\n  \"place\" : \"Namsan Outdoor Stage\",\n  \"capacity\" : 150,\n  \"comment\" : \"추운 겨울, 따뜻한 포크 음악과 함께하는 감동의 무대!\",\n  \"description\" : \"겨울의 낭만을 담은 포크 음악 공연\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "201",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AddUserEventResponseDto"
+                },
+                "examples" : {
+                  "events/add" : {
+                    "value" : "{\n  \"success\" : true,\n  \"data\" : null,\n  \"error\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/{eventId}/{userId}" : {
+      "get" : {
+        "tags" : [ "Event" ],
+        "summary" : "특정 행사에 대한 상세 정보를 조회한다.",
+        "description" : "특정 행사에 대한 상세 정보를 조회한다.",
+        "operationId" : "events/get-detail",
+        "parameters" : [ {
+          "name" : "eventId",
+          "in" : "path",
+          "description" : "행사 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "사용자 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GetUserEventDetailResponseDto"
+                },
+                "examples" : {
+                  "events/get-detail" : {
+                    "value" : "{\n  \"success\" : true,\n  \"data\" : {\n    \"title\" : \"Winter Folk Music Gathering 2024\",\n    \"eventStartDate\" : \"2024-12-30T17:00:00\",\n    \"eventEndDate\" : \"2024-12-30T21:00:00\",\n    \"bookingStartDate\" : \"2024-11-20T00:00:00\",\n    \"bookingEndDate\" : \"2024-12-25T23:59:59\",\n    \"paymentStartDate\" : \"2024-11-20T00:00:00\",\n    \"paymentEndDate\" : \"2024-12-20T23:59:59\",\n    \"price\" : 25000,\n    \"place\" : \"Namsan Outdoor Stage\",\n    \"capacity\" : 150,\n    \"comment\" : \"추운 겨울, 따뜻한 포크 음악과 함께하는 감동의 무대!\",\n    \"description\" : \"겨울의 낭만을 담은 포크 음악 공연\",\n    \"progressStatus\" : \"WANTED\",\n    \"postImgUrl\" : \"example.jpg\"\n  },\n  \"error\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Event" ],
+        "summary" : "주최자가 행사를 삭제한다.",
+        "description" : "주최자가 행사를 삭제한다.",
+        "operationId" : "events/delete",
+        "parameters" : [ {
+          "name" : "eventId",
+          "in" : "path",
+          "description" : "행사 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "사용자 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteUserEventResponseDto"
+                },
+                "examples" : {
+                  "events/delete" : {
+                    "value" : "{\n  \"success\" : true,\n  \"data\" : null,\n  \"error\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "Event" ],
+        "summary" : "주최자가 행사를 수정한다.",
+        "description" : "주최자가 행사를 수정한다.",
+        "operationId" : "events/update",
+        "parameters" : [ {
+          "name" : "eventId",
+          "in" : "path",
+          "description" : "행사 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "사용자 ID [예시 : 1 (NUMBER Type)]",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json;charset=UTF-8" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ModifyUserEventRequestDto"
+              },
+              "examples" : {
+                "events/update" : {
+                  "value" : "{\n  \"title\" : \"Winter Folk Music Gathering 2024 - Updated\",\n  \"eventStartDate\" : \"2024-12-31T17:00:00\",\n  \"eventEndDate\" : \"2024-12-31T21:00:00\",\n  \"bookingStartDate\" : \"2024-11-21T00:00:00\",\n  \"bookingEndDate\" : \"2024-12-26T23:59:59\",\n  \"paymentStartDate\" : \"2024-11-21T00:00:00\",\n  \"paymentEndDate\" : \"2024-12-21T23:59:59\",\n  \"price\" : 30000,\n  \"place\" : \"Updated Namsan Outdoor Stage\",\n  \"capacity\" : 200,\n  \"comment\" : \"새로운 업데이트 메시지\",\n  \"description\" : \"업데이트된 상세 설명\"\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "200",
+            "content" : {
+              "application/json;charset=UTF-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ModifyUserEventResponseDto"
+                },
+                "examples" : {
+                  "events/update" : {
+                    "value" : "{\n  \"success\" : true,\n  \"data\" : null,\n  \"error\" : null\n}"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ModifyUserEventRequestDto" : {
+        "title" : "ModifyUserEventRequestDto",
+        "required" : [ "bookingEndDate", "bookingStartDate", "capacity", "comment", "description", "eventEndDate", "eventStartDate", "paymentEndDate", "paymentStartDate", "place", "price", "title" ],
+        "type" : "object",
+        "properties" : {
+          "paymentEndDate" : {
+            "type" : "string",
+            "description" : "결제 종료 날짜"
+          },
+          "bookingStartDate" : {
+            "type" : "string",
+            "description" : "예약 시작 날짜"
+          },
+          "eventEndDate" : {
+            "type" : "string",
+            "description" : "행사 종료 날짜"
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "가격"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "상세 설명"
+          },
+          "bookingEndDate" : {
+            "type" : "string",
+            "description" : "예약 종료 날짜"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "주최자 한마디"
+          },
+          "place" : {
+            "type" : "string",
+            "description" : "장소"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "행사명"
+          },
+          "paymentStartDate" : {
+            "type" : "string",
+            "description" : "결제 시작 날짜"
+          },
+          "eventStartDate" : {
+            "type" : "string",
+            "description" : "행사 시작 날짜"
+          },
+          "capacity" : {
+            "type" : "number",
+            "description" : "수용 인원"
+          }
+        }
+      },
+      "GetUserEventDetailResponseDto" : {
+        "title" : "GetUserEventDetailResponseDto",
+        "required" : [ "data", "error", "success" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "required" : [ "bookingEndDate", "bookingStartDate", "capacity", "comment", "description", "eventEndDate", "eventStartDate", "paymentEndDate", "paymentStartDate", "place", "postImgUrl", "price", "progressStatus", "title" ],
+            "type" : "object",
+            "properties" : {
+              "bookingStartDate" : {
+                "type" : "string",
+                "description" : "예약 시작일"
+              },
+              "eventEndDate" : {
+                "type" : "string",
+                "description" : "행사 종료일"
+              },
+              "postImgUrl" : {
+                "type" : "string",
+                "description" : "행사 포스터 이미지 URL"
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "상세 설명"
+              },
+              "bookingEndDate" : {
+                "type" : "string",
+                "description" : "예약 종료일"
+              },
+              "title" : {
+                "type" : "string",
+                "description" : "행사 제목"
+              },
+              "capacity" : {
+                "type" : "number",
+                "description" : "수용 인원"
+              },
+              "paymentEndDate" : {
+                "type" : "string",
+                "description" : "결제 종료일"
+              },
+              "price" : {
+                "type" : "number",
+                "description" : "가격"
+              },
+              "progressStatus" : {
+                "type" : "string",
+                "description" : "진행 상태"
+              },
+              "comment" : {
+                "type" : "string",
+                "description" : "주최자 한마디"
+              },
+              "place" : {
+                "type" : "string",
+                "description" : "장소"
+              },
+              "paymentStartDate" : {
+                "type" : "string",
+                "description" : "결제 시작일"
+              },
+              "eventStartDate" : {
+                "type" : "string",
+                "description" : "행사 시작일"
+              }
+            },
+            "description" : "행사 상세 정보"
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "성공 여부"
+          }
+        }
+      },
+      "GetAllUserEventsResponseDto" : {
+        "title" : "GetAllUserEventsResponseDto",
+        "required" : [ "data", "error", "success" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "description" : "행사 목록",
+            "items" : {
+              "required" : [ "bookingEndDate", "bookingStartDate", "capacity", "eventEndDate", "eventId", "eventStartDate", "place", "postImgUrl", "title" ],
+              "type" : "object",
+              "properties" : {
+                "bookingStartDate" : {
+                  "type" : "string",
+                  "description" : "예약 시작일"
+                },
+                "eventEndDate" : {
+                  "type" : "string",
+                  "description" : "행사 종료일"
+                },
+                "eventId" : {
+                  "type" : "number",
+                  "description" : "행사 ID"
+                },
+                "postImgUrl" : {
+                  "type" : "string",
+                  "description" : "행사 포스터 이미지 URL"
+                },
+                "bookingEndDate" : {
+                  "type" : "string",
+                  "description" : "예약 종료일"
+                },
+                "place" : {
+                  "type" : "string",
+                  "description" : "행사 장소"
+                },
+                "title" : {
+                  "type" : "string",
+                  "description" : "행사 제목"
+                },
+                "eventStartDate" : {
+                  "type" : "string",
+                  "description" : "행사 시작일"
+                },
+                "capacity" : {
+                  "type" : "number",
+                  "description" : "수용 인원"
+                }
+              }
+            }
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "성공 여부"
+          }
+        }
+      },
+      "ModifyUserEventResponseDto" : {
+        "title" : "ModifyUserEventResponseDto",
+        "required" : [ "success" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "description" : "응답 데이터",
+            "nullable" : true
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "성공 여부"
+          },
+          "error" : {
+            "type" : "object",
+            "description" : "에러 정보",
+            "nullable" : true
+          }
+        }
+      },
+      "DeleteUserEventResponseDto" : {
+        "title" : "DeleteUserEventResponseDto",
+        "required" : [ "data", "success" ],
+        "type" : "object",
+        "properties" : {
+          "success" : {
+            "type" : "boolean",
+            "description" : "성공 여부"
+          },
+          "error" : {
+            "type" : "object",
+            "description" : "에러 정보",
+            "nullable" : true
+          }
+        }
+      },
+      "AddUserEventResponseDto" : {
+        "title" : "AddUserEventResponseDto",
+        "required" : [ "success" ],
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "object",
+            "description" : "응답 데이터",
+            "nullable" : true
+          },
+          "success" : {
+            "type" : "boolean",
+            "description" : "성공 여부"
+          },
+          "error" : {
+            "type" : "object",
+            "description" : "에러 정보",
+            "nullable" : true
+          }
+        }
+      },
+      "AddUserEventRequestDto" : {
+        "title" : "AddUserEventRequestDto",
+        "required" : [ "bookingEndDate", "bookingStartDate", "capacity", "comment", "description", "eventEndDate", "eventStartDate", "paymentEndDate", "paymentStartDate", "place", "price", "title" ],
+        "type" : "object",
+        "properties" : {
+          "paymentEndDate" : {
+            "type" : "string",
+            "description" : "결제 종료 날짜"
+          },
+          "bookingStartDate" : {
+            "type" : "string",
+            "description" : "예약 시작 날짜"
+          },
+          "eventEndDate" : {
+            "type" : "string",
+            "description" : "행사 종료 날짜"
+          },
+          "price" : {
+            "type" : "number",
+            "description" : "가격"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "상세 설명"
+          },
+          "bookingEndDate" : {
+            "type" : "string",
+            "description" : "예약 종료 날짜"
+          },
+          "comment" : {
+            "type" : "string",
+            "description" : "주최자 한마디"
+          },
+          "place" : {
+            "type" : "string",
+            "description" : "장소"
+          },
+          "title" : {
+            "type" : "string",
+            "description" : "행사명"
+          },
+          "paymentStartDate" : {
+            "type" : "string",
+            "description" : "결제 시작 날짜"
+          },
+          "eventStartDate" : {
+            "type" : "string",
+            "description" : "행사 시작 날짜"
+          },
+          "capacity" : {
+            "type" : "number",
+            "description" : "수용 인원"
+          }
+        }
+      }
+    }
+  }
+}
