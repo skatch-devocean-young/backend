@@ -66,6 +66,10 @@ public enum ErrorCode {
     _ONLY_HOST_CAN_REGISTER_EVENT(70001, HttpStatus.BAD_REQUEST, "주최자만 행사를 등록할 수 있습니다."),
     _ONLY_HOST_CAN_VIEW_MY_EVENT(70002, HttpStatus.BAD_REQUEST, "주최자만 본인의 행사를 조회할 수 있습니다."),
     _NOT_FOUND_EVENT(70003, HttpStatus.NOT_FOUND, "이벤트를 찾을 수 없습니다."),
+
+    // 800 Swagger Error
+    // 01
+    _FAILED_TRANSLATE_SWAGGER(80001, HttpStatus.INTERNAL_SERVER_ERROR, "Rest Docs로 생성된 json파일을 통한 스웨거 변환에 실패하였습니다.")
     ;
 
     private final Integer code;
