@@ -2,6 +2,7 @@ package devocean.tickit.Ai;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
+import devocean.tickit.configuration.ControllerTestConfig;
 import devocean.tickit.controller.AiController;
 import devocean.tickit.global.jwt.JwtUtils;
 import devocean.tickit.service.AiService;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ByteArrayResource;
@@ -23,8 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.charset.StandardCharsets;
-
 import static com.epages.restdocs.apispec.ResourceDocumentation.resource;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -32,8 +30,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AiController.class)
-@AutoConfigureRestDocs
-public class AiControllerTest {
+public class AiControllerTest extends ControllerTestConfig {
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,10 +40,6 @@ public class AiControllerTest {
 
     @MockBean
     private JwtUtils jwtUtils;
-
-    private MockMultipartFile createMockImageFile() {
-        return new MockMultipartFile("imageFile", "test.jpg", "multipart/form-data", "test.jpg".getBytes(StandardCharsets.UTF_8));
-    }
 
     @Test
     @DisplayName("배경 제거 API 테스트")
