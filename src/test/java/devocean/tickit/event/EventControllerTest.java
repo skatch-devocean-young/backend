@@ -18,10 +18,13 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class EventControllerTest extends ControllerTestConfig {
     @Test
     @DisplayName("주최자가 새로운 행사를 등록한다")
     public void addUserEvent() throws Exception {
-        AddUserEventRequest request = new AddUserEventRequest(
+        AddUserEventRequest addUserEventRequest = new AddUserEventRequest(
                 "Winter Folk Music Gathering 2024",
                 "2024-12-30T17:00:00",
                 "2024-12-30T21:00:00",
@@ -58,13 +61,23 @@ public class EventControllerTest extends ControllerTestConfig {
                 "추운 겨울, 따뜻한 포크 음악과 함께하는 감동의 무대!",
                 "겨울의 낭만을 담은 포크 음악 공연"
         );
+        MockMultipartFile addUserEventRequestToPart = new MockMultipartFile(
+                "addUserEventRequest",
+                null,
+                "application/json",
+                objectMapper.writeValueAsString(addUserEventRequest).getBytes(StandardCharsets.UTF_8)
+        );
 
-        Mockito.doNothing().when(eventService).addUserEvent(Mockito.anyLong(), Mockito.any(AddUserEventRequest.class));
+        MockMultipartFile imageFile = createMockImageFile();
+
+        Mockito.doNothing().when(eventService).addUserEvent(Mockito.anyLong(), Mockito.any(AddUserEventRequest.class), Mockito.any(MultipartFile.class));
 
         ResultActions result = this.mockMvc.perform(
-                RestDocumentationRequestBuilders.post("/api/v1/events/{userId}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
+                RestDocumentationRequestBuilders.multipart("/api/v1/events/{userId}", 1L)
+                        .file(addUserEventRequestToPart)
+                        .file(imageFile)
+                        .content(objectMapper.writeValueAsString(addUserEventRequest))
+                        .param("imageFile","")
         );
 
         result
@@ -77,6 +90,7 @@ public class EventControllerTest extends ControllerTestConfig {
                                 .description("주최자가 새로운 행사를 등록한다.")
                                 .pathParameters(parameterWithName("userId").description("사용자 ID [예시 : 1 (NUMBER Type)]"))
                                 .requestFields(
+                                        fieldWithPath("imageFile").description("행사 사진").type(JsonFieldType.STRING).optional(),
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("행사명"),
                                         fieldWithPath("eventStartDate").type(JsonFieldType.STRING).description("행사 시작 날짜"),
                                         fieldWithPath("eventEndDate").type(JsonFieldType.STRING).description("행사 종료 날짜"),
