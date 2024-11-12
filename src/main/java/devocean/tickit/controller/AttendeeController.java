@@ -15,6 +15,6 @@ public class AttendeeController {
 
     @PostMapping("/{events_id}")
     public ApiResponse<?> apply(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
-        return ApiResponse.ok(attendeeService.applyEvent(eventId, request));
+        return attendeeService.applyEvent(eventId, request);
     }
 }
