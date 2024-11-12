@@ -17,4 +17,9 @@ public class AttendeeController {
     public ApiResponse<?> apply(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
         return attendeeService.applyEvent(eventId, request);
     }
+
+    @PatchMapping("/{events_id}")
+    public ApiResponse<?> admit(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
+        return attendeeService.acceptAttendee(eventId, request);
+    }
 }

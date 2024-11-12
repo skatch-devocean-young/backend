@@ -12,6 +12,7 @@ import devocean.tickit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -24,6 +25,7 @@ public class AttendeeService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public ApiResponse<?> applyEvent(Long eventsId, ApplyEventRequest request) {
         // event id로 event 조회
         Optional<Event> event = eventRepository.findById(eventsId);
@@ -38,5 +40,15 @@ public class AttendeeService {
         ApplyEventResponse response = ApplyEventResponse.from(attendee);
 
         return ApiResponse.created(response);
+    }
+
+    public ApiResponse<?> acceptAttendee(Long eventId, ApplyEventRequest request) {
+        Optional<Event> event = eventRepository.findById(eventId);
+        Optional<User> user = userRepository.findById(request.uid());
+        Optional<Attendee> attendee = attendeeRepository.findByEventAndUser(event.get(), user.get());
+        attendee.get().accept(attendee.get());
+        attendeeRepository.save(attendee.get());
+
+        return ApiResponse.ok(attendee.get().getRegisterStatus());
     }
 }

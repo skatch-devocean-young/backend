@@ -13,7 +13,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
 
     // 티켓 발급
-    public Ticket createTicket() {
+    //public Ticket createTicket() {
 
-    }
+    //}
 }
