@@ -14,6 +14,8 @@ import java.util.Map;
 @Service
 public class QrCodeService {
 
+    // 기존 qr이미지가 있으면 그대로 반환, 없으면 새로 생성
+
     public byte[] generateQRCode(String festaid, String uid, int width, int height) throws Exception {
 
         // JSON 형식의 데이터 생성
