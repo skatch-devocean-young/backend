@@ -9,6 +9,7 @@ import devocean.tickit.service.EventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,17 +24,19 @@ public class EventController {
     /**
      * 주최자가 새로운 행사를 등록한다
      *
-     * @param addEventRequestDto 행사 등록 요청 정보 (행사명, 날짜, 장소 등)
-     * @param userId             사용자 ID
+     * @param addUserEventRequest 행사 등록 요청 정보 (행사명, 날짜, 장소 등)
+     * @param multipartFile 행사 이미지
+     * @param userId  사용자 ID
      * @return 생성된 행사에 대한 응답
      * @throws IOException 이미지 파일 처리 중 오류가 발생할 경우
      */
     @PostMapping("/{userId}")
     public ApiResponse<Object> addUserEvent(
-            @Valid @RequestBody AddUserEventRequest addEventRequestDto,
-            @PathVariable("userId") Long userId) {
+            @Valid @RequestPart("addUserEventRequest") AddUserEventRequest addUserEventRequest,
+            @RequestPart("imageFile") MultipartFile multipartFile,
+            @PathVariable("userId") Long userId) throws IOException {
 
-        eventService.addUserEvent(userId, addEventRequestDto);
+        eventService.addUserEvent(userId, addUserEventRequest, multipartFile);
         return ApiResponse.created(null);
     }
 
