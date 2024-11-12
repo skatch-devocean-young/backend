@@ -38,7 +38,7 @@ public class SecurityConfig {
             "/albums", "/albums/**",
             "/tickets", "/tickets/**",
             "/mypage", "/mypage/**",
-
+            "/ai", "/ai/**"
     };
 
     private String[] hostList = {
@@ -53,15 +53,14 @@ public class SecurityConfig {
 
 
     // CORS 설정
-    CorsConfigurationSource corsConfigurationSource() {
-        return request -> {
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedHeaders(Collections.singletonList("*"));
-            config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowedOriginPatterns(Collections.singletonList("*")); // 허용할 origin
-            config.setAllowCredentials(true);
-            return config;
-        };
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+        config.setAllowCredentials(true);
+        return request -> config;
     }
 
     @Bean

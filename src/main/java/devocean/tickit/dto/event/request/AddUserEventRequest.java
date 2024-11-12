@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 
 public record AddUserEventRequest(
         @NotNull(message = "행사명은 필수값입니다.") String title,
-        @NotNull(message = "행사 시작 시각은 필수값입니다.") LocalDateTime eventStartDate,
-        @NotNull(message = "행사 종료 시각은 필수값입니다.") LocalDateTime eventEndDate,
-        @NotNull(message = "예매 시작 시각은 필수값입니다.") LocalDateTime bookingStartDate,
-        @NotNull(message = "예매 종료 시각은 필수값입니다.") LocalDateTime bookingEndDate,
-        @NotNull(message = "입금 시작 시각은 필수값입니다.") LocalDateTime paymentStartDate,
-        @NotNull(message = "입금 종료 시각은 필수값입니다.") LocalDateTime paymentEndDate,
+        @NotNull(message = "행사 시작 시각은 필수값입니다.") String eventStartDate,
+        @NotNull(message = "행사 종료 시각은 필수값입니다.") String eventEndDate,
+        @NotNull(message = "예매 시작 시각은 필수값입니다.") String bookingStartDate,
+        @NotNull(message = "예매 종료 시각은 필수값입니다.") String bookingEndDate,
+        @NotNull(message = "입금 시작 시각은 필수값입니다.") String paymentStartDate,
+        @NotNull(message = "입금 종료 시각은 필수값입니다.") String paymentEndDate,
         @NotNull(message = "금액은 필수값입니다.") int price,
         @NotNull(message = "장소는 필수값입니다.") String place,
         @NotNull(message = "수용 인원은 필수값입니다.") int capacity,
@@ -24,12 +24,12 @@ public record AddUserEventRequest(
                 return Event.builder()
                         .user(user)
                         .title(title)
-                        .eventStartDate(eventStartDate)
-                        .eventEndDate(eventEndDate)
-                        .bookingStartDate(bookingStartDate)
-                        .bookingEndDate(bookingEndDate)
-                        .paymentStartDate(paymentStartDate)
-                        .paymentEndDate(paymentEndDate)
+                        .eventStartDate(LocalDateTime.parse(eventStartDate))
+                        .eventEndDate(LocalDateTime.parse(eventEndDate))
+                        .bookingStartDate(LocalDateTime.parse(bookingStartDate))
+                        .bookingEndDate(LocalDateTime.parse(bookingEndDate))
+                        .paymentStartDate(LocalDateTime.parse(paymentStartDate))
+                        .paymentEndDate(LocalDateTime.parse(paymentEndDate))
                         .price(price)
                         .place(place)
                         .capacity(capacity)
