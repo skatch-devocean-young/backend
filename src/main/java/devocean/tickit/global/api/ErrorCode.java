@@ -39,6 +39,8 @@ public enum ErrorCode {
     NOT_FOUND_END_POINT(40401, HttpStatus.NOT_FOUND, "존재하지 않는 API"),
     // 02
     NOT_FOUND_HANDLER(40402, HttpStatus.NOT_FOUND, "해당 경로에 대한 핸들러를 찾을 수 없습니다."),
+    // 03
+    OBJECT_NOT_FOUND(40403, HttpStatus.NOT_FOUND, "존재하지 않는 객체"),
 
     // 405
     // 01
