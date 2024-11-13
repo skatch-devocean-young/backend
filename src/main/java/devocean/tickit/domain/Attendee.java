@@ -53,4 +53,9 @@ public class Attendee extends BaseEntity {
         this.registerStatus = RegisterStatus.REJECTED;
         return this;
     }
+
+    public Attendee setTicket(Ticket ticket) {
+        this.ticket = ticket;
+        return this;
+    }
 }
