@@ -38,4 +38,9 @@ public class Ticket extends BaseEntity {
         this.img_url = img_url;
         this.ticketStatus = TicketStatus.UNUSED;
     }
+
+    public Ticket attend(){
+        this.ticketStatus = TicketStatus.USED;
+        return this;
+    }
 }

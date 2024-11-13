@@ -43,4 +43,24 @@ public class Attendee extends BaseEntity {
         this.registerStatus = RegisterStatus.ONHOLD;
         this.isAttended = false;
     }
+
+    public Attendee accept(Attendee attendee) {
+        this.registerStatus = RegisterStatus.ACCEPTED;
+        return this;
+    }
+
+    public Attendee reject(Attendee attendee) {
+        this.registerStatus = RegisterStatus.REJECTED;
+        return this;
+    }
+
+    public Attendee setTicket(Ticket ticket) {
+        this.ticket = ticket;
+        return this;
+    }
+
+    public Attendee attend() {
+        this.isAttended = true;
+        return this;
+    }
 }
