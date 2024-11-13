@@ -15,4 +15,7 @@ public interface AttendeeRepository extends JpaRepository<Attendee, Long> {
 
     @Query("SELECT a FROM Attendee a WHERE a.user.id = :uid AND a.registerStatus = 'ACCEPTED'")
     List<Attendee> findAcceptedByUid(Long uid);
+
+    @Query("SELECT a FROM Attendee a WHERE a.user.id = :uid AND a.event.id = :eventId AND a.registerStatus = 'ACCEPTED'")
+    Optional<Attendee> findByUser(Long uid, Long eventId);
 }

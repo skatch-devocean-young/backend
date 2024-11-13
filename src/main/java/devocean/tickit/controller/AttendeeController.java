@@ -1,6 +1,7 @@
 package devocean.tickit.controller;
 
 import devocean.tickit.dto.attendee.request.ApplyEventRequest;
+import devocean.tickit.dto.attendee.request.AttendEventRequest;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.service.AttendeeService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,11 @@ public class AttendeeController {
     @PatchMapping("/{events_id}")
     public ApiResponse<?> admit(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
         return attendeeService.acceptAttendee(eventId, request);
+    }
+
+    // qr 출석 체크
+    @PostMapping("/attend")
+    public ApiResponse<?> attend(@RequestBody AttendEventRequest request) {
+        return attendeeService.attendEvent(request);
     }
 }

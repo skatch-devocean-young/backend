@@ -58,4 +58,9 @@ public class Attendee extends BaseEntity {
         this.ticket = ticket;
         return this;
     }
+
+    public Attendee attend() {
+        this.isAttended = true;
+        return this;
+    }
 }
