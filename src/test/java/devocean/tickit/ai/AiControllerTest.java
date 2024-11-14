@@ -1,4 +1,4 @@
-package devocean.tickit.Ai;
+package devocean.tickit.ai;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetParameters;
@@ -66,7 +66,7 @@ public class AiControllerTest extends ControllerTestConfig {
                         resource(
                                 ResourceSnippetParameters.builder()
                                         .tag("AI")
-                                        .description("사용자가 업로드한 이미지에서 배경을 제거하고 결과 이미지를 반환한다..")
+                                        .description("사용자가 업로드한 이미지에서 배경을 제거하고 결과 이미지를 반환한다.")
                                         /* 스니펫 적용 불가로 인해 추후 수정
                                         .requestFields(
                                                 fieldWithPath("image").type(JsonFieldType.STRING).description("배경 제거를 위한 이미지 파일")

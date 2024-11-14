@@ -15,13 +15,13 @@ public class TicketController {
 
     // 티켓 리스트 조회
     @GetMapping("/list")
-    public ApiResponse<?> getTicketList(@RequestBody TicketRequest request) throws Exception {
+    public ApiResponse<Object> getTicketList(@RequestBody TicketRequest request) throws Exception {
         return ticketService.getList(request);
     }
 
     // 개별 티켓 조회
     @GetMapping("/{attendee_id}")
-    public ApiResponse<?> getTicketInfo(@PathVariable("attendee_id") Long attendeeId) throws Exception {
+    public ApiResponse<Object> getTicketInfo(@PathVariable("attendee_id") Long attendeeId) throws Exception {
         return ticketService.getTicket(attendeeId);
     }
 }
