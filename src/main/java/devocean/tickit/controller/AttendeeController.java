@@ -15,18 +15,18 @@ public class AttendeeController {
     private final AttendeeService attendeeService;
 
     @PostMapping("/{events_id}")
-    public ApiResponse<?> apply(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
+    public ApiResponse<Object> apply(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
         return attendeeService.applyEvent(eventId, request);
     }
 
     @PatchMapping("/{events_id}")
-    public ApiResponse<?> admit(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
+    public ApiResponse<Object> admit(@PathVariable("events_id") Long eventId, @RequestBody ApplyEventRequest request) {
         return attendeeService.acceptAttendee(eventId, request);
     }
 
     // qr 출석 체크
     @PostMapping("/attend")
-    public ApiResponse<?> attend(@RequestBody AttendEventRequest request) {
+    public ApiResponse<Object> attend(@RequestBody AttendEventRequest request) {
         return attendeeService.attendEvent(request);
     }
 }

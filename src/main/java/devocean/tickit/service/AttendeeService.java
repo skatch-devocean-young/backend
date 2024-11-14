@@ -30,7 +30,7 @@ public class AttendeeService {
     private final TicketRepository ticketRepository;
 
     @Transactional
-    public ApiResponse<?> applyEvent(Long eventsId, ApplyEventRequest request) {
+    public ApiResponse<Object> applyEvent(Long eventsId, ApplyEventRequest request) {
         // event id로 event 조회
         Optional<Event> event = eventRepository.findById(eventsId);
 
@@ -47,7 +47,7 @@ public class AttendeeService {
     }
 
     @Transactional
-    public ApiResponse<?> acceptAttendee(Long eventId, ApplyEventRequest request) {
+    public ApiResponse<Object> acceptAttendee(Long eventId, ApplyEventRequest request) {
         Optional<Event> event = eventRepository.findById(eventId);
         Optional<User> user = userRepository.findById(request.uid());
         Optional<Attendee> attendee = attendeeRepository.findByEventAndUser(event.get(), user.get());
@@ -58,7 +58,7 @@ public class AttendeeService {
     }
 
     @Transactional
-    public ApiResponse<?> attendEvent(AttendEventRequest request) {
+    public ApiResponse<Object> attendEvent(AttendEventRequest request) {
         try {
             // attendee 객체 조회
             Optional<Attendee> attendee = attendeeRepository.findByUser(request.uid(), request.event_id());
