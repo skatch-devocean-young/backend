@@ -28,7 +28,7 @@ public class TicketService {
 
     // 티켓 앨범 조회
     @Transactional
-    public ApiResponse<?> getList(TicketRequest request) throws Exception {
+    public ApiResponse<Object> getList(TicketRequest request) throws Exception {
         try {
             // 신청 행사 중 accept 된 행사만 조회
             Long uid = request.uid();
@@ -63,7 +63,7 @@ public class TicketService {
 
     // 개별 티켓 조회
     @Transactional
-    public ApiResponse<?> getTicket(Long attendeeId) throws Exception {
+    public ApiResponse<Object> getTicket(Long attendeeId) throws Exception {
         try {
             // 티켓 레포 조회
             Optional<Ticket> optionalTicket = ticketRepository.findByAttendeeId(attendeeId);
@@ -77,7 +77,7 @@ public class TicketService {
 
             // responseDto 생성
             TicketResponse response = new TicketResponse(ticket.getId(), ticket.getImg_url(), ticket.getTicketStatus().toString(), ticket.getQrImg().getImg_url());
-            return ApiResponse.created(response);
+            return ApiResponse.ok(response);
 
         } catch (Exception e) {
             return ApiResponse.failed(ErrorCode.OBJECT_NOT_FOUND);
