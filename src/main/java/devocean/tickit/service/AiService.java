@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 public class AiService {
 
     private final WebClient webClient;
-    private final String FLASK_BASE_URL = "http://localhost:5001"; // Flask 컨테이너의 주소 및 포트
+    private final String FLASK_BASE_URL = "http://ai-server:5001"; // Flask 컨테이너의 주소 및 포트
 
     // 배경 제거 API 호출 메서드
     public ResponseEntity<Resource> removeBackground(MultipartFile contentImage) {
