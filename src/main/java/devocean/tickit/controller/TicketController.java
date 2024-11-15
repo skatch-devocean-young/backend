@@ -1,6 +1,5 @@
 package devocean.tickit.controller;
 
-import devocean.tickit.dto.ticket.request.TicketRequest;
 import devocean.tickit.global.api.ApiResponse;
 import devocean.tickit.service.TicketService;
 import lombok.RequiredArgsConstructor;
