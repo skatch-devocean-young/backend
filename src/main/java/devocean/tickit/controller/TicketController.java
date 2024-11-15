@@ -14,9 +14,9 @@ public class TicketController {
     private final TicketService ticketService;
 
     // 티켓 리스트 조회
-    @GetMapping("/list")
-    public ApiResponse<Object> getTicketList(@RequestBody TicketRequest request) throws Exception {
-        return ticketService.getList(request);
+    @GetMapping("/list/{uid}")
+    public ApiResponse<Object> getTicketList(@PathVariable("uid") Long uid) throws Exception {
+        return ticketService.getList(uid);
     }
 
     // 개별 티켓 조회
