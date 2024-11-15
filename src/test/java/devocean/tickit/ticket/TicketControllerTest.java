@@ -37,22 +37,19 @@ public class TicketControllerTest extends ControllerTestConfig {
 
     @MockBean
     private JwtUtils jwtUtils;
-
     @Test
     @DisplayName("사용자의 티켓 리스트를 조회한다.")
     public void getTicketList() throws Exception {
-        TicketRequest request = new TicketRequest(1L);
         List<TicketResponse> ticketResponseList = List.of(
                 new TicketResponse(1L, "imageUrl1", "UNUSED", "qrImageUrl1"),
                 new TicketResponse(2L, "imageUrl2", "USED", "qrImageUrl2")
         );
 
-        when(ticketService.getList(any(TicketRequest.class)))
+        when(ticketService.getList(any(Long.class)))  // PathVariable에 맞게 변경
                 .thenReturn(ApiResponse.ok(ticketResponseList));
 
         ResultActions result = this.mockMvc.perform(
-                RestDocumentationRequestBuilders.get("/api/v1/ticket/list")
-                        .content(objectMapper.writeValueAsString(request))
+                RestDocumentationRequestBuilders.get("/api/v1/ticket/list/{uid}", 2L)  // PathVariable 전달
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
         );
@@ -69,7 +66,9 @@ public class TicketControllerTest extends ControllerTestConfig {
                         resource(ResourceSnippetParameters.builder()
                                 .tag("Ticket")
                                 .description("사용자의 티켓 리스트를 조회한다.")
-                                .requestFields(fieldWithPath("uid").type(JsonFieldType.NUMBER).description("사용자 ID"))
+                                .pathParameters(  // PathVariable 문서화
+                                        parameterWithName("uid").description("사용자 ID")
+                                )
                                 .responseFields(
                                         fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("성공 여부"),
                                         fieldWithPath("data[].ticket_id").type(JsonFieldType.NUMBER).description("티켓 ID"),
